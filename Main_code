@@ -1,0 +1,160 @@
+import tkinter as tk
+from tkinter import messagebox
+import random
+import time
+
+def two_player():
+        
+        name_input_window = tk.Toplevel(game_mode_menu)
+        name_input_window.title("Enter Player Names")
+        name_input_window.geometry("400x300")
+
+        label = tk.Label(name_input_window, text="Enter Player 1's Name", font=("Arial", 14))
+        label.pack(pady=20)
+
+        player1_name_entry = tk.Entry(name_input_window, font=("Arial", 14))
+        player1_name_entry.pack(pady=10)
+
+        label2 = tk.Label(name_input_window, text="Enter Player 2's Name", font=("Arial", 14))
+        label2.pack(pady=20)
+
+        player2_name_entry = tk.Entry(name_input_window, font=("Arial", 14))
+        player2_name_entry.pack(pady=10)
+
+        def start_with_names():
+            player1_name = player1_name_entry.get()
+            player2_name = player2_name_entry.get()
+
+            if player1_name and player2_name:
+                messagebox.showinfo("Game Mode", f"Player 1: {player1_name}\nPlayer 2: {player2_name} \n- Player vs Player Mode Selected")
+                name_input_window.destroy()
+                show_blackjack_table()  
+            else:
+                messagebox.showerror("Input Error", "Both player names must be entered.")
+
+        start_button = tk.Button(name_input_window, text="Start Game", font=("Arial", 14), command=start_with_names)
+        start_button.pack(pady=10)
+        
+def start_cpu():
+    main_menu.withdraw()
+
+    difficulty = tk.Toplevel(main_menu)
+    difficulty.title("Select CPU difficulty")
+    difficulty.geometry("800x600")
+
+    def advanced():
+        messagebox.showinfo("Game Mode", "Advanced Difficulty selected")
+        difficulty.destroy()
+        show_blackjack_table()
+
+    def intermediate():
+        messagebox.showinfo("Game Mode", "Intermediate Difficulty selected")
+        difficulty.destroy()
+        show_blackjack_table()
+
+    def beginner():
+        messagebox.showinfo("Game Mode", "Beginner Difficulty selected")
+        difficulty.destroy()
+        show_blackjack_table()
+
+    label = tk.Label(difficulty, text="Select CPU difficulty", font=("Arial", 16))
+    label.pack(pady=100)
+
+    dif1_button = tk.Button(difficulty, text="Advanced", font=("Arial", 14), command=advanced)
+    dif1_button.pack(pady=10)
+
+    dif2_button = tk.Button(difficulty, text="Intermediate", font=("Arial", 14), command=intermediate)
+    dif2_button.pack(pady=10)
+
+    dif3_button = tk.Button(difficulty, text="Beginner", font=("Arial", 14), command=beginner)
+    dif3_button.pack(pady=10)
+
+
+def show_blackjack_table():
+    
+    blackjack_table = tk.Toplevel(main_menu)
+    blackjack_table.title("Blackjack Table")
+    blackjack_table.geometry("800x600")
+
+    
+    blackjack_table.config(bg="green")
+
+    
+    player_label = tk.Label(blackjack_table, text="Player", font=("Arial", 16), fg="white", bg="green")
+    player_label.pack(pady=10)
+    
+    dealer_label = tk.Label(blackjack_table, text="Dealer", font=("Arial", 16), fg="white", bg="green")
+    dealer_label.pack(pady=10)
+
+    
+    player_cards_label = tk.Label(blackjack_table, text="Player's Cards: A♠, 10♣", font=("Arial", 14), fg="white", bg="green")
+    player_cards_label.pack(pady=20)
+
+    dealer_cards_label = tk.Label(blackjack_table, text="Dealer's Cards: 8♦, ?", font=("Arial", 14), fg="white", bg="green")
+    dealer_cards_label.pack(pady=20)
+
+    
+    player_score_label = tk.Label(blackjack_table, text="Player's Score: 21", font=("Arial", 14), fg="white", bg="green")
+    player_score_label.pack(pady=10)
+
+    dealer_score_label = tk.Label(blackjack_table, text="Dealer's Score: 18", font=("Arial", 14), fg="white", bg="green")
+    dealer_score_label.pack(pady=10)
+
+    
+    hit_button = tk.Button(blackjack_table, text="Hit", font=("Arial", 14), command=lambda: messagebox.showinfo("Hit", "Player chose to hit"))
+    hit_button.pack(pady=20)
+
+    stand_button = tk.Button(blackjack_table, text="Stand", font=("Arial", 14), command=lambda: messagebox.showinfo("Stand", "Player chose to stand"))
+    stand_button.pack(pady=10)
+
+    exit_button = tk.Button(blackjack_table, text="Exit", font=("Arial", 14), command=lambda: exit_game(blackjack_table))
+    exit_button.pack(pady=10)
+
+
+def exit_game(window=None):
+    result = messagebox.askquestion("Exit", "Do you want to exit the game?")
+    if result == "yes":
+        if window:
+            window.destroy()
+        main_menu.quit()
+
+# Function to start the game with two players
+def start_game():
+
+    main_menu.withdraw()
+
+    game_mode_menu = tk.Toplevel(main_menu)
+    game_mode_menu.title("Choose Game Mode")
+    game_mode_menu.geometry("800x600")
+
+
+    label = tk.Label(game_mode_menu, text="Choose Game Mode", font=("Arial", 16))
+    label.pack(pady=200)
+
+    single_button = tk.Button(game_mode_menu, text="Computer vs", font=("Arial", 14), command=start_cpu)
+    single_button.pack(pady=10)
+
+    two_button = tk.Button(game_mode_menu, text="Player vs", font=("Arial", 14), command=two_player)
+    two_button.pack(pady=10)
+
+
+def exit_game_from_main():
+    result = messagebox.askquestion("Exit", "Do you want to exit the game?")
+    if result == "yes":
+        main_menu.quit()
+
+
+main_menu = tk.Tk()
+main_menu.title("Game Menu")
+main_menu.geometry("800x600")
+
+label = tk.Label(main_menu, text="Black Jack: The Game", font=("Arial", 16))
+label.pack(pady=200)
+
+start_button = tk.Button(main_menu, text="Let's go!", font=("Arial", 14), command=start_game)
+start_button.pack(pady=10)
+
+exit_button = tk.Button(main_menu, text="Exit", font=("Arial", 14), command=exit_game_from_main)
+exit_button.pack(pady=10)
+
+main_menu.mainloop()
