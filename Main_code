@@ -3,38 +3,7 @@ from tkinter import messagebox
 import random
 import time
 
-def two_player():
-        
-        name_input_window = tk.Toplevel(game_mode_menu)
-        name_input_window.title("Enter Player Names")
-        name_input_window.geometry("400x300")
 
-        label = tk.Label(name_input_window, text="Enter Player 1's Name", font=("Arial", 14))
-        label.pack(pady=20)
-
-        player1_name_entry = tk.Entry(name_input_window, font=("Arial", 14))
-        player1_name_entry.pack(pady=10)
-
-        label2 = tk.Label(name_input_window, text="Enter Player 2's Name", font=("Arial", 14))
-        label2.pack(pady=20)
-
-        player2_name_entry = tk.Entry(name_input_window, font=("Arial", 14))
-        player2_name_entry.pack(pady=10)
-
-        def start_with_names():
-            player1_name = player1_name_entry.get()
-            player2_name = player2_name_entry.get()
-
-            if player1_name and player2_name:
-                messagebox.showinfo("Game Mode", f"Player 1: {player1_name}\nPlayer 2: {player2_name} \n- Player vs Player Mode Selected")
-                name_input_window.destroy()
-                show_blackjack_table()  
-            else:
-                messagebox.showerror("Input Error", "Both player names must be entered.")
-
-        start_button = tk.Button(name_input_window, text="Start Game", font=("Arial", 14), command=start_with_names)
-        start_button.pack(pady=10)
-        
 def start_cpu():
     main_menu.withdraw()
 
@@ -118,7 +87,7 @@ def exit_game(window=None):
             window.destroy()
         main_menu.quit()
 
-# Function to start the game with two players
+
 def start_game():
 
     main_menu.withdraw()
@@ -133,9 +102,14 @@ def start_game():
 
     single_button = tk.Button(game_mode_menu, text="Computer vs", font=("Arial", 14), command=start_cpu)
     single_button.pack(pady=10)
-
-    two_button = tk.Button(game_mode_menu, text="Player vs", font=("Arial", 14), command=two_player)
-    two_button.pack(pady=10)
+    
+    exit_button = tk.Button(game_mode_menu, text="Exit", font=("Arial", 14), command=exit_game_from_game)
+    exit_button.pack(pady=10)
+    
+def exit_game_from_game():
+    result = messagebox.askquestion("Exit", "Do you want to exit the game?")
+    if result == "yes":
+        main_menu.quit()
 
 
 def exit_game_from_main():
