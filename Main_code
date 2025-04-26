@@ -37,6 +37,11 @@ def start_cpu():
 
     dif3_button = tk.Button(difficulty, text="Beginner", font=("Arial", 14), command=beginner)
     dif3_button.pack(pady=10)
+    
+    exit_button = tk.Button(difficulty, text="Exit", font=("Arial", 14), command=lambda: exit_game(difficulty))
+    exit_button.pack(pady=10)
+    
+    
 
 
 def show_blackjack_table():
