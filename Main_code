@@ -2,16 +2,14 @@ import tkinter as tk
 from tkinter import messagebox
 import random
 
-player1_name=0
+player1_name = 0
 
-# Card values
 CARD_VALUES = {
     '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7,
     '8': 8, '9': 9, '10': 10,
-    'J': 10, 'Q': 10, 'K': 10, 'A': 11  # Aces handled specially
+    'J': 10, 'Q': 10, 'K': 10, 'A': 11  
 }
 
-# Create deck
 def create_deck():
     suits = ['♠', '♥', '♦', '♣']
     ranks = list(CARD_VALUES.keys())
@@ -33,12 +31,10 @@ def calculate_score(hand):
 def draw_card(deck):
     return deck.pop()
 
-# Game variables
 player_hand = []
 dealer_hand = []
 deck = []
 
-# Game logic functions
 def update_table():
     player_cards_label.config(text=f"Player's Cards: {', '.join(player_hand)}")
     dealer_display = dealer_hand[0] + ", ?" if not dealer_turn_done else ', '.join(dealer_hand)
@@ -55,7 +51,7 @@ def hit():
     if calculate_score(player_hand) > 21:
         end_game("Player busts! Dealer wins.")
 
-def stand():
+def stand(deck):
     global dealer_turn_done
     dealer_turn_done = True
     while calculate_score(dealer_hand) < 17:
@@ -111,15 +107,13 @@ def show_blackjack_table():
     hit_button = tk.Button(blackjack_table, text="Hit", font=("Arial", 14), command=hit)
     hit_button.pack(pady=20)
 
-    stand_button = tk.Button(blackjack_table, text="Stand", font=("Arial", 14), command=stand)
+    stand_button = tk.Button(blackjack_table, text="Stand", font=("Arial", 14), command=lambda: stand(deck))
     stand_button.pack(pady=10)
 
     tk.Button(blackjack_table, text="Exit", font=("Arial", 14), command=lambda: exit_game(blackjack_table)).pack(pady=10)
 
     update_table()
 
-
-# GUI functions
 def two_player():
     name_input_window = tk.Toplevel(main_menu)
     name_input_window.title("Enter Player Names")
@@ -129,16 +123,14 @@ def two_player():
     player1_name_entry = tk.Entry(name_input_window, font=("Arial", 14))
     player1_name_entry.pack(pady=10)
 
-
     def start_with_names():
         player1_name = player1_name_entry.get()
-        
         if player1_name:
             messagebox.showinfo("Game Mode", f"Player 1: {player1_name} Computer Mode Selected")
             name_input_window.destroy()
             start_cpu()
         else:
-            messagebox.showerror("Input Error", " player name must be entered.")
+            messagebox.showerror("Input Error", "Player name must be entered.")
 
     tk.Button(name_input_window, text="Start Game", font=("Arial", 14), command=start_with_names).pack(pady=10)
 
@@ -178,8 +170,6 @@ def exit_game_from_main():
     if result == "yes":
         main_menu.quit()
 
-
-# Main Menu
 main_menu = tk.Tk()
 main_menu.title("Game Menu")
 main_menu.geometry("800x600")
